@@ -2,8 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 
-# Open the image
-# Input path to your image
 image_path = "path/for/your/image"
 image = Image.open(image_path)
 
@@ -11,20 +9,17 @@ image_array = np.array(image)
 
 height, width, channels = image_array.shape
 
-# Define the downsampling factor
 downsampling_factor = 20
 
-# Create a NumPy array to store RGB values
 rgb_values = np.zeros(((height // downsampling_factor) + 1, (width // downsampling_factor) + 1, 3))
 
 for i in range(0, height, downsampling_factor):
     for j in range(0, width, downsampling_factor):
         if channels == 4:  # RGB + Alpha
-            r, g, b, _ = image_array[i, j] / 255.0  # Ignore alpha channel
+            r, g, b, _ = image_array[i, j] / 255.0
         else:  # RGB without Alpha
             r, g, b = image_array[i, j, :3] / 255.0
         rgb_values[i // downsampling_factor, j // downsampling_factor] = np.array([r, g, b])
-
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
